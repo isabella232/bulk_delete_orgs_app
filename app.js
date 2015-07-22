@@ -7,7 +7,7 @@
     	'bulkDeleteOrgsRequest.done':'showConfirmation',
     	'bulkDeleteOrgsRequest.fail':'showError',
     	'click .submit':'deleteOrgs',
-    	'app.activated':'getOrgs'
+    	'pane.activated':'getOrgs'
     },
 
     requests: {
