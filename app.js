@@ -7,6 +7,7 @@
     	'bulkDeleteOrgsRequest.done':'showConfirmation',
     	'bulkDeleteOrgsRequest.fail':'showError',
     	'click .submit':'deleteOrgs',
+        'click .closeModal':'getOrgs',
     	'pane.activated':'getOrgs'
     },
 
@@ -62,6 +63,7 @@
     	return data;
     },
 
+    /*
     deleteOrgs: function() {
     	console.log("Go time");
     	var checkedOrgs = this.$('.deletion:checked'),
@@ -74,6 +76,23 @@
     		this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     	}
     },
+    */
+
+    deleteOrgs: function() {
+        console.log('Go time');
+        var checkedOrgs = this.$('.deletion:checked'),
+            confirmationParagraph = '<p>Are you sure you want to delete ' + checkedOrgs.length + ' Orgs? This action cannot be undone.</p>'
+
+        if (checkedOrgs.length > 1) {
+            this.$('.modal-body').append(confirmationParagraph);
+            this.$('#confirmModal').modal();
+        } else {
+            this.$('#zeroModal').modal();
+        }
+        
+        
+    },
+
 
     showConfirmation: function() {
     	this.getOrgs();
