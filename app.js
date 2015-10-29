@@ -4,7 +4,7 @@
 		events: {
 			'orgsGetRequest.done':'showOrgsList',
 			'orgsGetRequest.fail':'showError',
-			'bulkDeleteOrgsRequest.done':'showConfirmation',
+			//'bulkDeleteOrgsRequest.done':'showConfirmation',
 			'bulkDeleteOrgsRequest.fail':'showError',
 			'click .submit':'showModal',
 			'click .confirmDelete':'deleteOrgs',
@@ -69,21 +69,6 @@
 			return data;
 		},
 
-		/*
-		deleteOrgs: function() {
-			console.log("Go time");
-			var checkedOrgs = this.$('.deletion:checked'),
-				idsForDeletion = "";
-			if (confirm("Are you sure you want to delete " + checkedOrgs.length + " Orgs? This action cannot be undone.")) {
-				for (var i=0; i<checkedOrgs.length; i++) {
-					idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
-				}
-				idsForDeletion = idsForDeletion.slice(0,-1);
-				this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
-			}
-		},
-		*/
-
 		// Show appropriate modal
 		showModal: function() {
 			var checkedOrgs = this.$('.deletion:checked'),
@@ -95,9 +80,7 @@
 				this.$('#confirmModal').modal();
 			} else {
 				this.$('#zeroModal').modal();
-			}
-			
-			
+			}			
 		},
 
 		// Collect IDs for deletion, and make request
@@ -109,8 +92,13 @@
 			for (var i=0; i<checkedOrgs.length; i++) {
 				idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
 			}
+
 			idsForDeletion = idsForDeletion.slice(0,-1);
-			this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
+			var deleteRequest = this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
+
+			this.when(deleteRequest).then(function(){
+				this.showConfirmation();
+			});
 		},
 
 		// Remove the confirmation paragraph if the modal is closed
