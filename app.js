@@ -4,8 +4,10 @@
 		events: {
 			'orgsGetRequest.done':'showOrgsList',
 			'orgsGetRequest.fail':'showError',
-			//'bulkDeleteOrgsRequest.done':'showConfirmation',
+			'bulkDeleteOrgsRequest.done':'checkDeletionStatus',
 			'bulkDeleteOrgsRequest.fail':'showError',
+			'checkDeletionStatusRequest.done':'checkDeletionStatus',
+			'checkDeletionStatusRequest.fail':'showError',
 			'click .submit':'showModal',
 			'click .confirmDelete':'deleteOrgs',
 			'click #closeConfirmModal':'removeParagraph',
@@ -27,6 +29,14 @@
 					type: 'DELETE',
 					dataType: 'json'
 				};
+			},
+
+			checkDeletionStatusRequest: function(id) {
+				return {
+					url: '/api/v2/job_statuses/' + id,
+					type: 'GET',
+					dataType: 'json'
+				}
 			}
 		},
 
@@ -94,11 +104,20 @@
 			}
 
 			idsForDeletion = idsForDeletion.slice(0,-1);
-			var deleteRequest = this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
+			this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
+		},
 
-			this.when(deleteRequest).then(function(){
-				this.showConfirmation();
-			});
+		checkDeletionStatus: function(response) {
+			var job_status = response.job_status;
+			console.log('checking status...')
+			
+			if (job_status.status == 'completed') {
+				this.showConfirmation;
+			} else {
+				setTimeout(function(){
+					this.ajax('checkDeletionStatusRequest', job_status.id);
+				}, 10)
+			}
 		},
 
 		// Remove the confirmation paragraph if the modal is closed
