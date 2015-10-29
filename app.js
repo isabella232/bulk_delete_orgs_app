@@ -107,6 +107,7 @@
 			this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
 		},
 
+		// Check the job status until complete, then confirm
 		checkDeletionStatus: function(response) {
 			var job_status = response.job_status;
 			console.log('checking status...')
@@ -116,7 +117,7 @@
 			} else {
 				setTimeout(function(){
 					this.ajax('checkDeletionStatusRequest', job_status.id);
-				}, 10)
+				}, 10).bind(this);
 			}
 		},
 
