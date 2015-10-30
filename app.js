@@ -15,6 +15,7 @@
 		},
 
 		requests: {
+			// GET all of the orgs in the account
 			orgsGetRequest: function() {
 				return {
 					url: '/api/v2/organizations.json',
@@ -23,6 +24,7 @@
 				};
 			},
 
+			// Delete all orgs identified by the ids variable
 			bulkDeleteOrgsRequest: function(ids) {
 				return {
 					url: '/api/v2/organizations/destroy_many.json?ids=' + ids,
@@ -31,12 +33,13 @@
 				};
 			},
 
+			// Check the status of job identified by the id variable
 			checkDeletionStatusRequest: function(id) {
 				return {
 					url: '/api/v2/job_statuses/' + id,
 					type: 'GET',
 					dataType: 'json'
-				}
+				};
 			}
 		},
 
@@ -109,18 +112,17 @@
 		},
 
 		// Check the job status until complete, then confirm
+		// Scope of the AJAX request is bound, and requests are retried every 0.05s
 		checkDeletionStatus: function(response) {
 			var job_status = response.job_status;
 			
 			if (job_status.status == 'completed') {
-				console.log('completo');
 				this.showConfirmation();
 			} else {
-				console.log('incompleto')
-				var boundRequest = this.ajax.bind(this);
+				var boundRequest = this.ajax.bind(this); 
 				setTimeout(function(){
 					boundRequest('checkDeletionStatusRequest', job_status.id);
-				}, 100);
+				}, 50);
 			}
 		},
 
