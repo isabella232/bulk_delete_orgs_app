@@ -104,20 +104,23 @@
 			}
 
 			idsForDeletion = idsForDeletion.slice(0,-1);
+			services.notify('Deleting...','notice',1000);
 			this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
 		},
 
 		// Check the job status until complete, then confirm
 		checkDeletionStatus: function(response) {
 			var job_status = response.job_status;
-			console.log('checking status...')
 			
 			if (job_status.status == 'completed') {
-				this.showConfirmation;
+				console.log('completo');
+				this.showConfirmation();
 			} else {
+				console.log('incompleto')
+				var boundRequest = this.ajax.bind(this);
 				setTimeout(function(){
-					this.ajax('checkDeletionStatusRequest', job_status.id);
-				}, 10).bind(this);
+					boundRequest('checkDeletionStatusRequest', job_status.id);
+				}, 100);
 			}
 		},
 
