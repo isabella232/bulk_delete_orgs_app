@@ -1,5 +1,7 @@
 <p> You can delete organisations in bulk using the tool below </p>
 
+<p id="count-par"></p>
+
 <br>
 
 <table id="org-table">
