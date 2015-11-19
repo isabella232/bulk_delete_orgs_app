@@ -51,6 +51,14 @@
 					type: 'GET',
 					dataType: 'json'
 				};
+			},
+
+			makeCall: function(url) {
+				return {
+					url: url,
+					type: 'GET',
+					dataType: 'json'
+				};
 			}
 		},
 
@@ -83,6 +91,8 @@
 				var row = '<tr><td>' + orgsArray[i].name + '</td><td>' + orgsArray[i].created_at + '</td><td><input type="checkbox" class="deletion" value="' + orgsArray[i].id + '"></input></td></tr>';
 				this.$('#org-table tr:last').after(row); 
 			}
+
+
 		},
 
 		// Display the error page
@@ -94,6 +104,12 @@
 		getOrgs: function() {
 			this.store({'orgs': []});
 			this.ajax('orgsGetRequest');
+		},
+
+		// Sort the table rows by org created date, newest first
+		sortOrgs: function(orgsList) {
+			orgsList.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
+			return orgsList;
 		},
 
 		// Change the date format to locale readable form
