@@ -2,8 +2,10 @@
 
 	return {
 		events: {
-			'orgsGetRequest.done':'showOrgsList',
+			'orgsGetRequest.done':'checkForMoreOrgs',
 			'orgsGetRequest.fail':'showError',
+			'orgsGetRequestPaginated.done':'checkForMoreOrgs',
+			'orgsGetRequestPaginated.fail':'showError',
 			'bulkDeleteOrgsRequest.done':'checkDeletionStatus',
 			'bulkDeleteOrgsRequest.fail':'showError',
 			'checkDeletionStatusRequest.done':'checkDeletionStatus',
@@ -19,6 +21,15 @@
 			orgsGetRequest: function() {
 				return {
 					url: '/api/v2/organizations.json',
+					type: 'GET',
+					dataType: 'json'
+				};
+			},
+
+			// GET all of the orgs in the account
+			orgsGetRequestPaginated: function(pid) {
+				return {
+					url: '/api/v2/organizations.json?page=' + pid,
 					type: 'GET',
 					dataType: 'json'
 				};
@@ -43,15 +54,33 @@
 			}
 		},
 
-		// Get all the orgs, sort by newest first, format the dates, and display on a table
+		// 
+		checkForMoreOrgs: function(data) {			
+			console.log(data);
+
+			var orgsSoFar = this.store('orgs');
+			orgsSoFar = orgsSoFar.concat(data.organizations);
+			this.store({'orgs': orgsSoFar});
+
+			if (!data.next_page) {
+				this.showOrgsList();
+			} else {
+				var pageID = data.next_page.slice(-1);
+				this.ajax('orgsGetRequestPaginated', pageID);
+			}
+
+			console.log(this.store('orgs'));
+		},
+
+		// 
 		showOrgsList: function(data) {
 			this.switchTo('page');
-			this.sortOrgs(data);
-			this.formatDates(data);
+			var orgsArray = this.store('orgs');
+			this.sortOrgs(orgsArray);
+			this.formatDates(orgsArray);
 			var table = this.$('#org-table')[0];
-			console.log(data);
-			for (var i=0;i<data.organizations.length;i++) {
-				var row = '<tr><td>' + data.organizations[i].name + '</td><td>' + data.organizations[i].created_at + '</td><td><input type="checkbox" class="deletion" value="' + data.organizations[i].id + '"></input></td></tr>';
+			for (var i=0;i<orgsArray.length;i++) {
+				var row = '<tr><td>' + orgsArray[i].name + '</td><td>' + orgsArray[i].created_at + '</td><td><input type="checkbox" class="deletion" value="' + orgsArray[i].id + '"></input></td></tr>';
 				this.$('#org-table tr:last').after(row); 
 			}
 		},
@@ -63,23 +92,24 @@
 
 		// Call the GET request
 		getOrgs: function() {
+			this.store({'orgs': []});
 			this.ajax('orgsGetRequest');
 		},
 
 		// Change the date format to locale readable form
-		formatDates: function(data) {
-			for (var i=0; i<data.organizations.length; i++)
+		formatDates: function(orgs) {
+			for (var i=0; i<orgs.length; i++)
 			{
-				var d = new Date(data.organizations[i].created_at);
-				data.organizations[i].created_at = d.toLocaleDateString();
+				var d = new Date(orgs[i].created_at);
+				orgs[i].created_at = d.toLocaleDateString();
 			}
-			return data;
+			return orgs;
 		},
 
 		// Sort the table rows by org created date, newest first
-		sortOrgs: function(data) {
-			data.organizations.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
-			return data;
+		sortOrgs: function(orgs) {
+			orgs.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
+			return orgs;
 		},
 
 		// Show appropriate modal
