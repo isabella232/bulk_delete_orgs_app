@@ -62,7 +62,13 @@
 			}
 		},
 
-		// 
+		// Call the GET request
+		getOrgs: function() {
+			this.store({'orgs': []});
+			this.ajax('orgsGetRequest');
+		},
+
+		// After making the GET request, check if there are more pages
 		checkForMoreOrgs: function(data) {			
 			console.log(data);
 
@@ -80,7 +86,7 @@
 			console.log(this.store('orgs'));
 		},
 
-		// 
+		// Display the orgs on a table
 		showOrgsList: function(data) {
 			this.switchTo('page');
 			var orgsArray = this.store('orgs');
@@ -95,21 +101,10 @@
 
 		},
 
-		// Display the error page
-		showError: function() {
-			this.switchTo('error');
-		},
-
-		// Call the GET request
-		getOrgs: function() {
-			this.store({'orgs': []});
-			this.ajax('orgsGetRequest');
-		},
-
 		// Sort the table rows by org created date, newest first
-		sortOrgs: function(orgsList) {
-			orgsList.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
-			return orgsList;
+		sortOrgs: function(orgs) {
+			orgs.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
+			return orgs;
 		},
 
 		// Change the date format to locale readable form
@@ -122,10 +117,9 @@
 			return orgs;
 		},
 
-		// Sort the table rows by org created date, newest first
-		sortOrgs: function(orgs) {
-			orgs.sort(function(a,b){return new Date(b.created_at) - new Date(a.created_at);});
-			return orgs;
+		// Display the error page
+		showError: function() {
+			this.switchTo('error');
 		},
 
 		// Show appropriate modal
