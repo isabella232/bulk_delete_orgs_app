@@ -4,13 +4,9 @@
 
 <br>
 
-<table id="org-table">
-	<tr>
-		<th>Name</th>
-		<th>Created on</th>
-		<th>Delete</th>
-	</tr>
-</table>
+<div id='page-selector'></div>
+
+<div id='table-area'></div>
 
 <!-- confirmation modal -->
 <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">

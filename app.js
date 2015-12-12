@@ -13,6 +13,7 @@
 			'click .submit':'showModal',
 			'click .confirmDelete':'deleteOrgs',
 			'click #closeConfirmModal':'removeParagraph',
+			'click .toggle-button':'togglePage',
 			'pane.activated':'getOrgs'
 		},
 
@@ -89,16 +90,35 @@
 		// Display the orgs on a table
 		showOrgsList: function(data) {
 			this.switchTo('page');
-			var orgsArray = this.store('orgs');
+			var orgsArray = this.store('orgs'),
+				orgsArrayLength = orgsArray.length,
+				TABLE_SIZE = 50,
+				numTables = Math.ceil(orgsArrayLength/TABLE_SIZE),
+				table,
+				row,
+				button;
+
 			this.sortOrgs(orgsArray);
 			this.formatDates(orgsArray);
-			var table = this.$('#org-table')[0];
-			for (var i=0;i<orgsArray.length;i++) {
-				var row = '<tr><td>' + orgsArray[i].name + '</td><td>' + orgsArray[i].created_at + '</td><td><input type="checkbox" class="deletion" value="' + orgsArray[i].id + '"></input></td></tr>';
-				this.$('#org-table tr:last').after(row); 
+
+			for (var i=0; i<numTables; i++) {
+				table = '<table id="org-table-' + (i+1) + '" class="org-table hidden"><tr><th>Name</th><th>Created on</th><th>Delete</th></tr></table>';
+				this.$('#table-area').append(table);
 			}
 
+			for (var j=0; j<numTables; j++) {
+				for (var k=j*TABLE_SIZE; k<Math.min((j+1)*TABLE_SIZE,orgsArrayLength); k++) {
+					row = '<tr><td>' + orgsArray[k].name + '</td><td>' + orgsArray[k].created_at + '</td><td><input type="checkbox" class="deletion" value="' + orgsArray[k].id + '"></input></td></tr>';
+					this.$('#org-table-' + (j+1) + ' tr:last').after(row);
+				}
+			}
 
+			for (var l=0; l<numTables; l++) {
+				button = '<button id="toggle-button-' + (l+1) + '" class="toggle-button">Page ' + (l+1) + '</button>';
+				this.$('#page-selector').append(button);
+			}
+
+			this.$('#org-table-1').removeClass('hidden');
 		},
 
 		// Sort the table rows by org created date, newest first
@@ -115,6 +135,12 @@
 				orgs[i].created_at = d.toLocaleDateString();
 			}
 			return orgs;
+		},
+
+		togglePage: function(event) {
+			var buttonID = event.target.id.slice(-1);
+			this.$('.org-table').addClass('hidden');
+			this.$('#org-table-' + buttonID).removeClass('hidden');
 		},
 
 		// Display the error page
@@ -140,7 +166,7 @@
 		deleteOrgs: function() {
 			console.log('Go time');
 			var checkedOrgs = this.$('.deletion:checked'),
-				idsForDeletion = "";
+				idsForDeletion = '';
 
 			for (var i=0; i<checkedOrgs.length; i++) {
 				idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
