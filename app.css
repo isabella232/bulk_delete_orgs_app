@@ -16,6 +16,6 @@ button {
 	padding: 0.5em;
 }
 
-.modal {
-	
+.selected {
+	background-color: lightblue;
 }

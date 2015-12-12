@@ -14,6 +14,9 @@
 			'click .confirmDelete':'deleteOrgs',
 			'click #closeConfirmModal':'removeParagraph',
 			'click .toggle-button':'togglePage',
+			'click #select-page':'selectPage',
+			'click #select-all': 'selectAll',
+			'click #clear-all': 'clearAll',
 			'pane.activated':'getOrgs'
 		},
 
@@ -119,6 +122,8 @@
 			}
 
 			this.$('#org-table-1').removeClass('hidden');
+			this.$('#org-table-1').addClass('shown');
+			this.$('#toggle-button-1').addClass('selected');
 		},
 
 		// Sort the table rows by org created date, newest first
@@ -138,9 +143,17 @@
 		},
 
 		togglePage: function(event) {
-			var buttonID = event.target.id.slice(-1);
+			var buttonID = event.target.id,
+				buttonNum = event.target.id.slice(-1);
+
+			console.log(buttonID);
+
+			this.$('.org-table').removeClass('shown');
 			this.$('.org-table').addClass('hidden');
-			this.$('#org-table-' + buttonID).removeClass('hidden');
+			this.$('#org-table-' + buttonNum).removeClass('hidden');
+			this.$('#org-table-' + buttonNum).addClass('shown');
+			this.$('.toggle-button').removeClass('selected');
+			this.$('#' + buttonID).addClass('selected');
 		},
 
 		// Display the error page
@@ -205,6 +218,18 @@
 			console.log('confirm time');
 			services.notify('Selected orgs deleted');
 			this.ajax('orgsGetRequest');
+		},
+
+		selectPage: function() {
+			this.$('.shown .deletion').prop('checked', true);
+		},
+
+		selectAll: function() {
+			this.$('.deletion').prop('checked', true);
+		},
+
+		clearAll: function() {
+			this.$('.deletion').prop('checked', false);
 		}
 	};
 
