@@ -14,6 +14,7 @@
 			'click .confirmDelete':'deleteOrgs',
 			'click #closeConfirmModal':'removeParagraph',
 			'click .toggle-button':'togglePage',
+			'click #reload-orgs':'getOrgs',
 			'click #select-page':'selectPage',
 			'click #select-all': 'selectAll',
 			'click #clear-all': 'clearAll',
@@ -69,6 +70,7 @@
 		// Call the GET request
 		getOrgs: function() {
 			this.store({'orgs': []});
+			services.notify('Getting your orgs...','notice',1000);
 			this.ajax('orgsGetRequest');
 		},
 

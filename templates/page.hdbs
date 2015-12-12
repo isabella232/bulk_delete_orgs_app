@@ -5,6 +5,7 @@
 <br>
 
 <div id='bulk-actions'>
+	<button id='reload-orgs'>Reload orgs list</button>
 	<button id='select-page'>Select all on page</button>
 	<button id='select-all'>Select all</button>
 	<button id='clear-all'>Clear selected</button>
