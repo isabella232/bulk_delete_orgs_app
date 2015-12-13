@@ -107,25 +107,24 @@
 			this.formatDates(orgsArray);
 
 			for (var i=0; i<numTables; i++) {
-				table = '<table id="org-table-' + (i+1) + '" class="org-table hidden"><tr><th>Name</th><th>Created on</th><th>Delete</th></tr></table>';
+				table = '<table id="org-table-' + (i+1) + '" class="table table-bordered org-table hidden"><tr><th class="col-md-4">Name</th><th class="col-md-2">Created on</th><th class="col-md-2">Delete</th></tr></table>';
 				this.$('#table-area').append(table);
 			}
 
 			for (var j=0; j<numTables; j++) {
 				for (var k=j*TABLE_SIZE; k<Math.min((j+1)*TABLE_SIZE,orgsArrayLength); k++) {
-					row = '<tr><td>' + orgsArray[k].name + '</td><td>' + orgsArray[k].created_at + '</td><td><input type="checkbox" class="deletion" value="' + orgsArray[k].id + '"></input></td></tr>';
+					row = '<tr><td class="col-md-4">' + orgsArray[k].name + '</td><td class="col-md-2">' + orgsArray[k].created_at + '</td><td class="col-md-2"><input type="checkbox" class="deletion" value="' + orgsArray[k].id + '"></input></td></tr>';
 					this.$('#org-table-' + (j+1) + ' tr:last').after(row);
 				}
 			}
 
 			for (var l=0; l<numTables; l++) {
-				button = '<button id="toggle-button-' + (l+1) + '" class="toggle-button">Page ' + (l+1) + '</button>';
+				button = '<li class = "toggle-li" id="toggle-li-' + (l+1) + '"><a id="toggle-button-' + (l+1) + '" class="toggle-button">' + (l+1) + '</a></li>';
 				this.$('#page-selector').append(button);
 			}
 
-			this.$('#org-table-1').removeClass('hidden');
-			this.$('#org-table-1').addClass('shown');
-			this.$('#toggle-button-1').addClass('selected');
+			this.$('#org-table-1').removeClass('hidden').addClass('shown');
+			this.$('#toggle-li-1').addClass('active');
 		},
 
 		// Sort the table rows by org created date, newest first
@@ -145,17 +144,12 @@
 		},
 
 		togglePage: function(event) {
-			var buttonID = event.target.id,
-				buttonNum = event.target.id.slice(-1);
+			var buttonNum = event.target.id.slice(-1);
 
-			console.log(buttonID);
-
-			this.$('.org-table').removeClass('shown');
-			this.$('.org-table').addClass('hidden');
-			this.$('#org-table-' + buttonNum).removeClass('hidden');
-			this.$('#org-table-' + buttonNum).addClass('shown');
-			this.$('.toggle-button').removeClass('selected');
-			this.$('#' + buttonID).addClass('selected');
+			this.$('.org-table').removeClass('shown').addClass('hidden');
+			this.$('#org-table-' + buttonNum).removeClass('hidden').addClass('shown');
+			this.$('.toggle-li').removeClass('active');
+			this.$('#toggle-li-' + buttonNum).addClass('active');
 		},
 
 		// Display the error page
