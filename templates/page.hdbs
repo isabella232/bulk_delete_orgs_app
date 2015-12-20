@@ -11,8 +11,6 @@
 			<button id='clear-all' class='btn btn-default'>Clear selected</button>
 		</div>
 
-		<br>
-
 		<div id='table-area'></div>
 
 		<nav>
