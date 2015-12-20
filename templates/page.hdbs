@@ -4,18 +4,20 @@
 
 		<p> You can delete organisations in bulk using the tool below </p>
 
-		<div id='bulk-actions' class='btn-group btn-group-sm'>
+		<div id='bulk-actions' class='btn-group btn-group-sm' role='group'>
 			<button id='reload-orgs' class='btn btn-default'>Reload orgs list</button>
 			<button id='select-page' class='btn btn-default'>Select all on page</button>
 			<button id='select-all' class='btn btn-default'>Select all</button>
 			<button id='clear-all' class='btn btn-default'>Clear selected</button>
 		</div>
 
+		<br>
+
+		<div id='table-area'></div>
+
 		<nav>
 			<ul id='page-selector' class='pagination'></ul>
 		</nav>
-
-		<div id='table-area'></div>
 
 		<div id='deletion-button'>
 			<button class="submit btn btn-danger btn-sm" type="button">Delete selected organisations</button>
@@ -30,8 +32,8 @@
 		<div class="modal-body" id="confirm-modal-body">
 		</div>
 		<div class="modal-footer">
-		<button class="closeModal" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Close</button>
-		<button class="confirmDelete" data-dismiss="modal">Save changes</button>
+		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Close</button>
+		<button class="confirmDelete btn btn-sm" data-dismiss="modal">Save changes</button>
 		</div>
 	</div>
 
@@ -44,7 +46,7 @@
 		<p>You have not selected any Orgs.</p>
 		</div>
 		<div class="modal-footer">
-		<button class="closeModal" data-dismiss="modal" aria-hidden="true">OK</button>
+		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true">OK</button>
 		</div>
 	</div>
 </div>
