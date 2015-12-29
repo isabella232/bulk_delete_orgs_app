@@ -135,9 +135,10 @@
 
 		// Change the date format to locale readable form
 		formatDates: function(orgs) {
+			var d;
 			for (var i=0; i<orgs.length; i++)
 			{
-				var d = new Date(orgs[i].created_at);
+				d = new Date(orgs[i].created_at);
 				orgs[i].created_at = d.toLocaleDateString();
 			}
 			return orgs;
@@ -160,9 +161,15 @@
 		// Show appropriate modal
 		showModal: function() {
 			var checkedOrgs = this.$('.deletion:checked'),
-				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' Orgs? This action cannot be undone.</p>';
+				confirmationParagraph;
 
-			if (checkedOrgs.length > 0) {
+			if (checkedOrgs.length > 1) {
+				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' orgs? This action cannot be undone.</p>'
+				this.$('#confirm-modal-body').append(confirmationParagraph);
+				console.log('added par');
+				this.$('#confirmModal').modal();
+			} else if (checkedOrgs.length > 0) {
+				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' org? This action cannot be undone.</p>'
 				this.$('#confirm-modal-body').append(confirmationParagraph);
 				console.log('added par');
 				this.$('#confirmModal').modal();
