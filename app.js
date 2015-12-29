@@ -193,6 +193,8 @@
 			
 			if (job_status.status == 'completed') {
 				this.showConfirmation();
+			} else if (job_status.status == 'failed') {
+				this.showError();
 			} else {
 				var boundRequest = this.ajax.bind(this); 
 				setTimeout(function(){
