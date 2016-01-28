@@ -144,6 +144,7 @@
 			return orgs;
 		},
 
+		// Display table number correlating to clicked button, and hide the rest
 		togglePage: function(event) {
 			var buttonNum = event.target.id.slice(-1);
 
@@ -222,17 +223,20 @@
 		showConfirmation: function() {
 			console.log('confirm time');
 			services.notify('Selected orgs deleted');
-			this.ajax('orgsGetRequest');
+			this.getOrgs();
 		},
 
+		// Select all on current page
 		selectPage: function() {
 			this.$('.shown .deletion').prop('checked', true);
 		},
 
+		// Select all on every page
 		selectAll: function() {
 			this.$('.deletion').prop('checked', true);
 		},
 
+		// Deselect all on every page
 		clearAll: function() {
 			this.$('.deletion').prop('checked', false);
 		}
