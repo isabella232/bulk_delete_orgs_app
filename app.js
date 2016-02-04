@@ -165,12 +165,12 @@
 				confirmationParagraph;
 
 			if (checkedOrgs.length > 1) {
-				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' orgs? This action cannot be undone.</p>'
+				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' orgs? This action cannot be undone.</p>';
 				this.$('#confirm-modal-body').append(confirmationParagraph);
 				console.log('added par');
 				this.$('#confirmModal').modal();
 			} else if (checkedOrgs.length > 0) {
-				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' org? This action cannot be undone.</p>'
+				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' org? This action cannot be undone.</p>';
 				this.$('#confirm-modal-body').append(confirmationParagraph);
 				console.log('added par');
 				this.$('#confirmModal').modal();
