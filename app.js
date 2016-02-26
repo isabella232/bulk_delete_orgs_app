@@ -69,8 +69,8 @@
 
 		// Call the GET request
 		getOrgs: function() {
+			this.switchTo('spinner');
 			this.store({'orgs': []});
-			services.notify('Getting your orgs...','notice',1000);
 			this.ajax('orgsGetRequest');
 		},
 
@@ -107,7 +107,7 @@
 			this.formatDates(orgsArray);
 
 			for (var i=0; i<numTables; i++) {
-				table = '<table id="org-table-' + (i+1) + '" class="table table-bordered org-table hidden"><tr><th class="col-md-4">Name</th><th class="col-md-2">Created on</th><th class="col-md-2">Delete</th></tr></table>';
+				table = '<table id="org-table-' + (i+1) + '" class="table table-bordered org-table hidden"><tr><th class="col-md-4">Name</th><th class="col-md-2">Created on</th><th class="col-md-2">Mark for deletion</th></tr></table>';
 				this.$('#table-area').append(table);
 			}
 
