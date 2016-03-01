@@ -1,5 +1,27 @@
+:warning: *Use of this software is subject to important terms and conditions as set forth in the License file* :warning:
+
 # Bulk Delete Organizations
 
-This app offers an easy way to delete many organisations at one time.
+## Description:
 
-Please submit bug reports to [this email address](mailto:ncolfer@zendesk.com). Pull requests are welcome.
+This app offers an easy way to delete many organisations at one time
+
+## App location:
+
+* Navigation Bar
+
+## Features:
+
+* Select and delete orgs in bulk
+
+## Set-up/installation instructions:
+
+No additional steps are required to install this app
+
+## Contribution:
+
+Pull requests are welcome.
+
+## Screenshot(s):
+
+To come
