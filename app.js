@@ -14,11 +14,11 @@
 			'click .confirmDelete':'deleteOrgs',
 			'click #closeConfirmModal':'removeParagraph',
 			'click .toggle-button':'togglePage',
-			'click #reload-orgs':'getOrgs',
+			'click #reload-orgs':'init',
 			'click #select-page':'selectPage',
 			'click #select-all': 'selectAll',
 			'click #clear-all': 'clearAll',
-			'pane.activated':'getOrgs'
+			'pane.activated':'init'
 		},
 
 		requests: {
@@ -67,11 +67,18 @@
 			}
 		},
 
-		// Call the GET request
-		getOrgs: function() {
-			this.switchTo('spinner');
-			this.store({'orgs': []});
-			this.ajax('orgsGetRequest');
+		// Initialise
+		init: function() {
+			var user = this.currentUser();
+			if (user.role() == 'admin') {
+				this.switchTo('spinner');
+				this.store({'orgs': []});
+				this.ajax('orgsGetRequest');
+			} else {
+				this.switchTo('non-admin');
+				console.log('No tool for you');
+			}
+			
 		},
 
 		// After making the GET request, check if there are more pages
@@ -223,7 +230,7 @@
 		showConfirmation: function() {
 			console.log('confirm time');
 			services.notify('Selected orgs deleted');
-			this.getOrgs();
+			this.init();
 		},
 
 		// Select all on current page
