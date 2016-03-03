@@ -24,4 +24,18 @@ Pull requests are welcome.
 
 ## Screenshot(s):
 
-To come
+Basic interface:
+
+![](http://i.imgur.com/3woVGOy.png)
+
+Confirmation modal:
+
+![](http://i.imgur.com/k9l0wLu.png)
+
+When selecting none:
+
+![](http://i.imgur.com/JwTH94S.png)
+
+Non-admin message:
+
+![](http://i.imgur.com/Q27fsGc.png)
