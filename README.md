@@ -30,11 +30,11 @@ Basic interface:
 
 Confirmation modal:
 
-![](http://i.imgur.com/k9l0wLu.png)
+![](http://i.imgur.com/dhFve76.png)
 
 When selecting none:
 
-![](http://i.imgur.com/JwTH94S.png)
+![](http://i.imgur.com/zzGZh4j.png)
 
 Non-admin message:
 
