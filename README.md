@@ -34,7 +34,7 @@ Confirmation modal:
 
 When selecting none:
 
-![](http://i.imgur.com/zzGZh4j.png)
+![](http://i.imgur.com/ptzFXGD.png)
 
 Non-admin message:
 
