@@ -41,7 +41,7 @@
 		<h3 id="zeroModalLabel">Error</h3>
 		</div>
 		<div class="modal-body">
-		<p>You have not selected any Orgs.</p>
+		<p>You have not selected any orgs.</p>
 		</div>
 		<div class="modal-footer">
 		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true">OK</button>
