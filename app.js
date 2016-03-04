@@ -2,6 +2,7 @@
 
 	return {
 		events: {
+			'pane.activated':'init',
 			'orgsGetRequest.done':'checkForMoreOrgs',
 			'orgsGetRequest.fail':'showError',
 			'orgsGetRequestPaginated.done':'checkForMoreOrgs',
@@ -17,8 +18,7 @@
 			'click #reload-orgs':'init',
 			'click #select-page':'selectPage',
 			'click #select-all': 'selectAll',
-			'click #clear-all': 'clearAll',
-			'pane.activated':'init'
+			'click #clear-all': 'clearAll'
 		},
 
 		requests: {
@@ -31,7 +31,7 @@
 				};
 			},
 
-			// GET all of the orgs in the account
+			// GET page pid of the orgs list
 			orgsGetRequestPaginated: function(pid) {
 				return {
 					url: '/api/v2/organizations.json?page=' + pid,
@@ -56,35 +56,23 @@
 					type: 'GET',
 					dataType: 'json'
 				};
-			},
-
-			makeCall: function(url) {
-				return {
-					url: url,
-					type: 'GET',
-					dataType: 'json'
-				};
 			}
 		},
 
-		// Initialise
+		// Initialise: make a GET request for the orgs if an admin, and show a message if not
 		init: function() {
-			var user = this.currentUser();
-			if (user.role() == 'admin') {
+			if (this.currentUser().role() == 'admin') {
 				this.switchTo('spinner');
 				this.store({'orgs': []});
 				this.ajax('orgsGetRequest');
 			} else {
 				this.switchTo('non-admin');
-				console.log('No tool for you');
 			}
 			
 		},
 
 		// After making the GET request, check if there are more pages
 		checkForMoreOrgs: function(data) {			
-			console.log(data);
-
 			var orgsSoFar = this.store('orgs');
 			orgsSoFar = orgsSoFar.concat(data.organizations);
 			this.store({'orgs': orgsSoFar});
@@ -92,11 +80,8 @@
 			if (!data.next_page) {
 				this.showOrgsList();
 			} else {
-				var pageID = data.next_page.slice(-1);
-				this.ajax('orgsGetRequestPaginated', pageID);
+				this.ajax('orgsGetRequestPaginated', data.next_page.slice(-1));
 			}
-
-			console.log(this.store('orgs'));
 		},
 
 		// Display the orgs on a table
@@ -174,12 +159,10 @@
 			if (checkedOrgs.length > 1) {
 				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' orgs? This action cannot be undone.</p>';
 				this.$('#confirm-modal-body').append(confirmationParagraph);
-				console.log('added par');
 				this.$('#confirmModal').modal();
 			} else if (checkedOrgs.length > 0) {
 				confirmationParagraph = '<p id="confirmationParagraph">Are you sure you want to delete ' + checkedOrgs.length + ' org? This action cannot be undone.</p>';
 				this.$('#confirm-modal-body').append(confirmationParagraph);
-				console.log('added par');
 				this.$('#confirmModal').modal();
 			} else {
 				this.$('#zeroModal').modal();
@@ -188,7 +171,6 @@
 
 		// Collect IDs for deletion, and make request
 		deleteOrgs: function() {
-			console.log('Go time');
 			var checkedOrgs = this.$('.deletion:checked'),
 				idsForDeletion = '';
 
@@ -204,31 +186,26 @@
 		// Check the job status until complete, then confirm
 		// Scope of the AJAX request is bound, and requests are retried every 0.05s
 		checkDeletionStatus: function(response) {
-			var job_status = response.job_status;
-			
-			if (job_status.status == 'completed') {
+			if (response.job_status.status == 'completed') {
 				this.showConfirmation();
-			} else if (job_status.status == 'failed') {
+			} else if (response.job_status.status == 'failed') {
 				this.showError();
 			} else {
 				var boundRequest = this.ajax.bind(this); 
 				setTimeout(function(){
-					boundRequest('checkDeletionStatusRequest', job_status.id);
+					boundRequest('checkDeletionStatusRequest', response.job_status.id);
 				}, 50);
 			}
 		},
 
 		// Remove the confirmation paragraph if the modal is closed
 		removeParagraph: function () {
-			console.log('remove par');
 			var cp = this.$('#confirmationParagraph')[0];
-			console.log(cp);
 			cp.parentNode.removeChild(cp);
 		},
 
 		// Show the confirmation modal
 		showConfirmation: function() {
-			console.log('confirm time');
 			services.notify('Selected orgs deleted');
 			this.init();
 		},
@@ -248,5 +225,4 @@
 			this.$('.deletion').prop('checked', false);
 		}
 	};
-
 }());
