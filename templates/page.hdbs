@@ -30,8 +30,8 @@
 		<div class="modal-body" id="confirm-modal-body">
 		</div>
 		<div class="modal-footer">
-		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Close</button>
-		<button class="confirmDelete btn btn-sm" data-dismiss="modal">Save changes</button>
+		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Cancel</button>
+		<button class="confirmDelete btn btn-sm btn-danger" data-dismiss="modal">Delete</button>
 		</div>
 	</div>
 
