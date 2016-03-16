@@ -111,12 +111,12 @@
 			}
 
 			for (var l=0; l<numTables; l++) {
-				button = '<li class = "toggle-li" id="toggle-li-' + (l+1) + '"><a id="toggle-button-' + (l+1) + '" class="toggle-button">' + (l+1) + '</a></li>';
-				this.$('#page-selector').append(button);
+				button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
+				this.$('.pagination').append(button);
 			}
 
 			this.$('#org-table-1').removeClass('hidden').addClass('shown');
-			this.$('#toggle-li-1').addClass('active');
+			this.$('.toggle-li-1').addClass('active');
 		},
 
 		// Sort the table rows by org created date, newest first
@@ -138,12 +138,13 @@
 
 		// Display table number correlating to clicked button, and hide the rest
 		togglePage: function(event) {
-			var buttonNum = event.target.id.slice(-1);
+			console.log(event);
+			var buttonNum = event.target.className.slice(event.target.className.indexOf('toggle-button-') + 14);
 
 			this.$('.org-table').removeClass('shown').addClass('hidden');
 			this.$('#org-table-' + buttonNum).removeClass('hidden').addClass('shown');
 			this.$('.toggle-li').removeClass('active');
-			this.$('#toggle-li-' + buttonNum).addClass('active');
+			this.$('.toggle-li-' + buttonNum).addClass('active');
 		},
 
 		// Display the error page

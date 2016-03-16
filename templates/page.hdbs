@@ -11,10 +11,14 @@
 			<button id='clear-all' class='btn btn-default'>Clear selected</button>
 		</div>
 
+		<nav>
+			<ul class='pagination'></ul>
+		</nav>
+
 		<div id='table-area'></div>
 
 		<nav>
-			<ul id='page-selector' class='pagination'></ul>
+			<ul class='pagination'></ul>
 		</nav>
 
 		<div id='deletion-button'>
