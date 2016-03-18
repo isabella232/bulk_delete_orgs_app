@@ -138,7 +138,6 @@
 
 		// Display table number correlating to clicked button, and hide the rest
 		togglePage: function(event) {
-			console.log(event);
 			var buttonNum = event.target.className.slice(event.target.className.indexOf('toggle-button-') + 14);
 
 			this.$('.org-table').removeClass('shown').addClass('hidden');
