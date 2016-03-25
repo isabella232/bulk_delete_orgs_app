@@ -1,8 +1,11 @@
 (function() {
 
+	var timedStatusCheck;
+
 	return {
 		events: {
 			'pane.activated':'init',
+			'app.willDestroy':'stopTimeOut',
 			'orgsGetRequest.done':'checkForMoreOrgs',
 			'orgsGetRequest.fail':'showError',
 			'orgsGetRequestPaginated.done':'checkForMoreOrgs',
@@ -192,10 +195,15 @@
 				this.showError();
 			} else {
 				var boundRequest = this.ajax.bind(this); 
-				setTimeout(function(){
+				timedStatusCheck = setTimeout(function(){
 					boundRequest('checkDeletionStatusRequest', response.job_status.id);
 				}, 50);
 			}
+		},
+
+		//
+		stopTimeOut: function() {
+			clearTimeout(timedStatusCheck);
 		},
 
 		// Remove the confirmation paragraph if the modal is closed
