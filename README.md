@@ -26,11 +26,15 @@ Pull requests are welcome.
 
 Basic interface:
 
-![](http://i.imgur.com/3woVGOy.png)
+![](http://i.imgur.com/hwa5q5f.png)
+
+<br />
+
+![](http://i.imgur.com/0o4SauI.png)
 
 Confirmation modal:
 
-![](http://i.imgur.com/dhFve76.png)
+![](http://i.imgur.com/1fVqV7p.png)
 
 When selecting none:
 
