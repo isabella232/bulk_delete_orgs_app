@@ -1,54 +1,51 @@
-<div class='container-fluid'>
+<div class='container'>
 
-	<div class='col-md-8 col-md-offset-1'>
+	<p class='top-par'> You can delete organisations in bulk using the tool below </p>
 
-		<p> You can delete organisations in bulk using the tool below </p>
-
-		<div id='bulk-actions' class='btn-group btn-group-sm' role='group'>
-			<button id='reload-orgs' class='btn btn-default'>Reload orgs list</button>
-			<button id='select-page' class='btn btn-default'>Select all on page</button>
-			<button id='select-all' class='btn btn-default'>Select all</button>
-			<button id='clear-all' class='btn btn-default'>Clear selected</button>
-		</div>
-
-		<nav>
-			<ul class='pagination'></ul>
-		</nav>
-
-		<div id='table-area'></div>
-
-		<nav>
-			<ul class='pagination'></ul>
-		</nav>
-
-		<div id='deletion-button'>
-			<button class="submit btn btn-danger btn-sm" type="button">Delete selected organisations</button>
-		</div>
-	</div>
-	
-	<!-- confirmation modal -->
-	<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-		<div class="modal-header">
-		<h3 id="confirmModalLabel">Confirm</h3>
-		</div>
-		<div class="modal-body" id="confirm-modal-body">
-		</div>
-		<div class="modal-footer">
-		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Cancel</button>
-		<button class="confirmDelete btn btn-sm btn-danger" data-dismiss="modal">Delete</button>
-		</div>
+	<div id='bulk-actions' class='btn-group btn-group-sm' role='group'>
+		<button id='reload-orgs' class='btn'>Reload orgs list</button>
+		<button id='select-page' class='btn'>Select all on page</button>
+		<button id='select-all' class='btn'>Select all</button>
+		<button id='clear-all' class='btn'>Clear selected</button>
 	</div>
 
-	<!-- zero selected modal -->
-	<div id="zeroModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="zeroModalLabel" aria-hidden="true">
-		<div class="modal-header">
-		<h3 id="zeroModalLabel">Error</h3>
-		</div>
-		<div class="modal-body">
-		<p>You have not selected any orgs.</p>
-		</div>
-		<div class="modal-footer">
-		<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true">OK</button>
-		</div>
+	<nav>
+		<ul class='pagination'></ul>
+	</nav>
+
+	<div id='table-area'></div>
+
+	<nav>
+		<ul class='pagination'></ul>
+	</nav>
+
+	<div id='deletion-button'>
+		<button class="submit redButton btn btn-sm" type="button">Delete selected organisations</button>
+	</div>
+</div>
+
+<!-- confirmation modal -->
+<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+	<div class="modal-header">
+	<h3 id="confirmModalLabel">Confirm</h3>
+	</div>
+	<div class="modal-body" id="confirm-modal-body">
+	</div>
+	<div class="modal-footer">
+	<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true" id="closeConfirmModal">Cancel</button>
+	<button class="confirmDelete btn btn-sm redButton" data-dismiss="modal">Delete</button>
+	</div>
+</div>
+
+<!-- zero selected modal -->
+<div id="zeroModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="zeroModalLabel" aria-hidden="true">
+	<div class="modal-header">
+	<h3 id="zeroModalLabel">Error</h3>
+	</div>
+	<div class="modal-body">
+	<p>You have not selected any orgs.</p>
+	</div>
+	<div class="modal-footer">
+	<button class="closeModal btn btn-sm" data-dismiss="modal" aria-hidden="true">OK</button>
 	</div>
 </div>

@@ -102,13 +102,13 @@
 			this.formatDates(orgsArray);
 
 			for (var i=0; i<numTables; i++) {
-				table = '<table id="org-table-' + (i+1) + '" class="table table-bordered org-table hidden"><tr><th class="col-md-4">Name</th><th class="col-md-2">Created on</th><th class="col-md-2">Mark for deletion</th></tr></table>';
+				table = '<table id="org-table-' + (i+1) + '" class="table table-bordered org-table hidden"><tr><th class="org-name-head">Name</th><th class="created-head">Created on</th><th class="mark-head">Mark for deletion</th></tr></table>';
 				this.$('#table-area').append(table);
 			}
 
 			for (var j=0; j<numTables; j++) {
 				for (var k=j*TABLE_SIZE; k<Math.min((j+1)*TABLE_SIZE,orgsArrayLength); k++) {
-					row = '<tr><td class="col-md-4">' + orgsArray[k].name + '</td><td class="col-md-2">' + orgsArray[k].created_at + '</td><td class="col-md-2"><input type="checkbox" class="deletion" value="' + orgsArray[k].id + '"></input></td></tr>';
+					row = '<tr><td class="org-name-cell">' + orgsArray[k].name + '</td><td class="created-cell">' + orgsArray[k].created_at + '</td><td class="mark-cell"><input type="checkbox" class="deletion" value="' + orgsArray[k].id + '"></input></td></tr>';
 					this.$('#org-table-' + (j+1) + ' tr:last').after(row);
 				}
 			}
