@@ -14,3 +14,15 @@
 	background: red;
 	color: white;
 }
+
+.org-name-head, .org-name-cell {
+	width: 50%;
+}
+
+.created-head, .created-cell {
+	width: 25%;
+}
+
+.mark-head, .mark-cell {
+	width: 25%;
+}
