@@ -4,7 +4,7 @@
 
 ## Description:
 
-This app offers an easy way to delete many organisations at one time
+This app offers an easy way to delete many organisations at one time. Admins can see a list of all of their orgs, paginated to 50 per page. Orgs can be selected and deselected individually or using bulk actions, and deleted.
 
 ## App location:
 
@@ -12,7 +12,11 @@ This app offers an easy way to delete many organisations at one time
 
 ## Features:
 
-* Select and delete orgs in bulk
+* Mark orgs individually via a checkbox
+* Select all on current page
+* Select all
+* Remove all selected
+* Delete selected orgs
 
 ## Set-up/installation instructions:
 
