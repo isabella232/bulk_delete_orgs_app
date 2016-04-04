@@ -26,11 +26,11 @@ Pull requests are welcome.
 
 Basic interface:
 
-![](http://i.imgur.com/hwa5q5f.png)
+![](http://i.imgur.com/oMHZipo.png)
 
 <br />
 
-![](http://i.imgur.com/0o4SauI.png)
+![](http://i.imgur.com/rMruxtY.png)
 
 Confirmation modal:
 
