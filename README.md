@@ -28,13 +28,13 @@ Basic interface:
 
 ![](http://i.imgur.com/oMHZipo.png)
 
-<br />
+...
 
 ![](http://i.imgur.com/rMruxtY.png)
 
 Confirmation modal:
 
-![](http://i.imgur.com/1fVqV7p.png)
+![](http://i.imgur.com/83x8OCJ.png)
 
 When selecting none:
 
