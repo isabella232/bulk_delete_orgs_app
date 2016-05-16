@@ -1,8 +1,8 @@
 {
   "name": "Bulk Delete Organisations",
   "author": {
-    "name": "Zendesk Labs",
-    "email": "zendesklabs@zendesk.com",
+    "name": "Zenlabs",
+    "email": "zenlabs@zendesk.com",
     "url": "https://github.com/zendesklabs/bulk_delete_orgs_app"
   },
   "defaultLocale": "en",
