@@ -1,6 +1,7 @@
 (function() {
 
-	var timedStatusCheck;
+	var timedStatusCheck,
+		allOrgs;
 
 	return {
 		events: {
@@ -66,7 +67,6 @@
 		init: function() {
 			if (this.currentUser().role() == 'admin') {
 				this.switchTo('spinner');
-				this.store({'orgs': []});
 				this.ajax('orgsGetRequest');
 			} else {
 				this.switchTo('non-admin');
@@ -76,21 +76,23 @@
 
 		// After making the GET request, check if there are more pages
 		checkForMoreOrgs: function(data) {			
-			var orgsSoFar = this.store('orgs');
+			var orgsSoFar = allOrgs||[],
+				eqaulIndex;
 			orgsSoFar = orgsSoFar.concat(data.organizations);
-			this.store({'orgs': orgsSoFar});
+			allOrgs = orgsSoFar;
 
 			if (!data.next_page) {
 				this.showOrgsList();
 			} else {
-				this.ajax('orgsGetRequestPaginated', data.next_page.slice(-1));
+				eqaulIndex = data.next_page.indexOf("=");
+				this.ajax('orgsGetRequestPaginated', data.next_page.slice(eqaulIndex+1));
 			}
 		},
 
 		// Display the orgs on a table
 		showOrgsList: function(data) {
 			this.switchTo('page');
-			var orgsArray = this.store('orgs'),
+			var orgsArray = allOrgs,
 				orgsArrayLength = orgsArray.length,
 				TABLE_SIZE = 50,
 				numTables = Math.ceil(orgsArrayLength/TABLE_SIZE),
