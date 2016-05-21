@@ -76,14 +76,16 @@
 
 		// After making the GET request, check if there are more pages
 		checkForMoreOrgs: function(data) {			
-			var orgsSoFar = allOrgs||[];
+			var orgsSoFar = allOrgs||[],
+				eqaulIndex;
 			orgsSoFar = orgsSoFar.concat(data.organizations);
 			allOrgs = orgsSoFar;
 
 			if (!data.next_page) {
 				this.showOrgsList();
 			} else {
-				this.ajax('orgsGetRequestPaginated', data.next_page.slice(-1));
+				eqaulIndex = data.next_page.indexOf("=");
+				this.ajax('orgsGetRequestPaginated', data.next_page.slice(eqaulIndex+1));
 			}
 		},
 
