@@ -66,7 +66,7 @@
 		// Initialise: make a GET request for the orgs if an admin, and show a message if not
 		init: function() {
 			if (this.currentUser().role() == 'admin') {
-				this.switchTo('spinner');
+				this.switchTo('loading');
 				this.ajax('orgsGetRequest');
 			} else {
 				this.switchTo('non-admin');
@@ -77,7 +77,10 @@
 		// After making the GET request, check if there are more pages
 		checkForMoreOrgs: function(data) {			
 			var orgsSoFar = allOrgs||[],
-				eqaulIndex;
+				eqaulIndex,
+				pageNum,
+				totalPages = Math.ceil(data.count/100),
+				barPercent;
 			orgsSoFar = orgsSoFar.concat(data.organizations);
 			allOrgs = orgsSoFar;
 
@@ -85,7 +88,10 @@
 				this.showOrgsList();
 			} else {
 				eqaulIndex = data.next_page.indexOf("=");
-				this.ajax('orgsGetRequestPaginated', data.next_page.slice(eqaulIndex+1));
+				pageNum = data.next_page.slice(eqaulIndex+1);
+				barPercent = 100*pageNum/totalPages;
+				this.$('.bar').css('width', barPercent + "%")
+				this.ajax('orgsGetRequestPaginated', pageNum);
 			}
 		},
 

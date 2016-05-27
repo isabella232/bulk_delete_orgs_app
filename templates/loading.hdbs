@@ -1,0 +1,9 @@
+<div class="loading-container">
+
+	<p>Just a moment while we load the Orgs...</p>
+
+	<div class='progress'>
+		<div class="bar" style="width: 0%;"></div>
+	</div>
+
+</div>

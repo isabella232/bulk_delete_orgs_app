@@ -26,3 +26,13 @@
 .mark-head, .mark-cell {
 	width: 25%;
 }
+
+.loading-container {
+	width: 50%;
+	margin: 0 auto
+}
+
+.loading-container > p {
+	margin: 3em auto;
+	text-align: center;
+}
