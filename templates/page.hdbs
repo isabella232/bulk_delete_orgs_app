@@ -10,13 +10,13 @@
 	</div>
 
 	<nav>
-		<ul class='pagination'></ul>
+		<ul class='pagination bdo-pagination bdo-pagination-top'></ul>
 	</nav>
 
 	<div id='table-area'></div>
 
 	<nav>
-		<ul class='pagination'></ul>
+		<ul class='pagination bdo-pagination bdo-pagination-bottom'></ul>
 	</nav>
 
 	<div id='deletion-button'>
