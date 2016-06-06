@@ -90,7 +90,7 @@
 				eqaulIndex = data.next_page.indexOf("=");
 				pageNum = data.next_page.slice(eqaulIndex+1);
 				barPercent = 100*pageNum/totalPages;
-				this.$('.bar').css('width', barPercent + "%")
+				this.$('.bar').css('width', barPercent + "%");
 				this.ajax('orgsGetRequestPaginated', pageNum);
 			}
 		},
