@@ -1,7 +1,8 @@
 (function() {
 
   var timedStatusCheck,
-    allOrgs;
+      allOrgs,
+      numTables;
 
   return {
     events: {
@@ -19,7 +20,7 @@
       'click .confirmDelete':'deleteOrgs',
       'click #closeConfirmModal':'removeParagraph',
       'click .toggle-button':'togglePage',
-      'click #reload-orgs':'init',
+      'click #reload-orgs':'startAgain',
       'click #select-page':'selectPage',
       'click #select-all': 'selectAll',
       'click #clear-all': 'clearAll'
@@ -81,6 +82,7 @@
         pageNum,
         totalPages = Math.ceil(data.count/100),
         barPercent;
+
       orgsSoFar = orgsSoFar.concat(data.organizations);
       allOrgs = orgsSoFar;
 
@@ -98,14 +100,15 @@
     // Display the orgs on a table
     showOrgsList: function(data) {
       this.switchTo('page');
+
       var orgsArray = allOrgs,
         orgsArrayLength = orgsArray.length,
         TABLE_SIZE = 50,
-        numTables = Math.ceil(orgsArrayLength/TABLE_SIZE),
         table,
         row,
         button;
 
+      numTables = Math.ceil(orgsArrayLength/TABLE_SIZE);
       this.sortOrgs(orgsArray);
       this.formatDates(orgsArray);
 
@@ -154,12 +157,28 @@
 
     // Display table number correlating to clicked button, and hide the rest
     togglePage: function(event) {
-      var buttonNum = event.target.className.slice(event.target.className.indexOf('toggle-button-') + 14);
+      var buttonNum = parseInt(event.target.className.slice(event.target.className.indexOf('toggle-button-') + 14), 10);
 
       this.$('.org-table').removeClass('shown').addClass('hidden');
       this.$('#org-table-' + buttonNum).removeClass('hidden').addClass('shown');
       this.$('.toggle-li').removeClass('active');
       this.$('.toggle-li-' + buttonNum).addClass('active');
+
+      if (buttonNum <= 5) {
+        this.$('.toggle-li, .ellipses').hide();
+        this.$('.toggle-li-1, .toggle-li-2, .toggle-li-3, .toggle-li-4, .toggle-li-5, .toggle-li-6, .toggle-li-7, .toggle-li-' + (numTables-1) + ', .toggle-li-' + numTables + ', .ellipses-right').show();
+        this.$('.toggle-li-' + buttonNum).addClass('active');
+      } else if (buttonNum <= (numTables - 5)) {
+        this.$('.toggle-li, .ellipses').hide();
+        this.$('.toggle-li-1, .toggle-li-2, .toggle-li-' + (buttonNum-2) + ', .toggle-li-' + (buttonNum-1) + ', .toggle-li-' + buttonNum + ', .toggle-li-' + (buttonNum+1) + ', .toggle-li-' + (buttonNum+2) + ', .toggle-li-' + (numTables-1) + ', .toggle-li-' + numTables + ', .ellipses-right, .ellipses-left').show();
+        this.$('.toggle-li-' + buttonNum).addClass('active');
+      } else if (buttonNum <= numTables) {
+        this.$('.toggle-li, .ellipses').hide();
+        this.$('.toggle-li-1, .toggle-li-2, .toggle-li-' + (numTables-6) + ', .toggle-li-'+(numTables-5)+', .toggle-li-' + (numTables-4) + ', .toggle-li-' + (numTables-3) + ', .toggle-li-' + (numTables-2) + ', .toggle-li-' + (numTables-1) + ', .toggle-li-' + numTables + ', .ellipses-left').show();
+        this.$('.toggle-li-' + buttonNum).addClass('active');
+      } else {
+        this.showError();
+      }
     },
 
     // Display the error page
@@ -244,6 +263,12 @@
     // Deselect all on every page
     clearAll: function() {
       this.$('.deletion').prop('checked', false);
+    },
+
+    // Reload from the start by assigning an empty array to allOrgs and calling init() 
+    startAgain: function() {
+      allOrgs = [];
+      this.init();
     }
   };
 }());
