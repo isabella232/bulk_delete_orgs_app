@@ -2,7 +2,7 @@
 
 	<p>Just a moment while we load the Orgs...</p>
 
-	<div class='progress'>
+	<div class='progress progress-striped active'>
 		<div class="bar" style="width: 0%;"></div>
 	</div>
 
