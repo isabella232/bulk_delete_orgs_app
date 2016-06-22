@@ -123,19 +123,12 @@
           this.$('#org-table-' + (j+1) + ' tr:last').after(row);
         }
       }
-
-      for (var l=0; l<numTables; l++) {
-        button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
-        this.$('.bdo-pagination').append(button);
+      
+      if (numTables<=10) {
+        this.buildSmallPaginator();
+      } else {
+        this.buildLargePaginator();
       }
-
-      this.$(".bdo-pagination-top > li:eq( 1), .bdo-pagination-bottom > li:eq( 1)").after( '<li class="ellipses ellipses-left"><a>...</a></li>');
-      this.$(".bdo-pagination-top > li:eq(-2), .bdo-pagination-bottom > li:eq(-2)").before('<li class="ellipses ellipses-right"><a>...</a></li>');
-
-      this.$('#org-table-1').removeClass('hidden').addClass('shown');
-      this.$('.toggle-li, .ellipses').hide();
-      this.$('.toggle-li-1, .toggle-li-2, .toggle-li-3, .toggle-li-4, .toggle-li-5, .toggle-li-6, .toggle-li-7, .toggle-li-' + (numTables-1) + ', .toggle-li-' + numTables + ', .ellipses-right').show();
-      this.$('.toggle-li-1').addClass('active');
     },
 
     // Sort the table rows by org created date, newest first
@@ -153,6 +146,33 @@
         orgs[i].created_at = d.toLocaleDateString();
       }
       return orgs;
+    },
+
+    // Builds a simple paginator for 10 or less pages
+    buildSmallPaginator: function() {
+      for (var l=0; l<numTables; l++) {
+        button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
+        this.$('.bdo-pagination').append(button);
+      }
+
+      this.$('#org-table-1').removeClass('hidden').addClass('shown');
+      this.$('.toggle-li-1').addClass('active');
+    },
+
+    // Builds a paginator for over 10 pages, shows only 9 page numbers and hides the rest 
+    buildLargePaginator: function() {
+      for (var l=0; l<numTables; l++) {
+        button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
+        this.$('.bdo-pagination').append(button);
+      }
+
+      this.$(".bdo-pagination-top > li:eq( 1), .bdo-pagination-bottom > li:eq( 1)").after( '<li class="ellipses ellipses-left"><a>...</a></li>');
+      this.$(".bdo-pagination-top > li:eq(-2), .bdo-pagination-bottom > li:eq(-2)").before('<li class="ellipses ellipses-right"><a>...</a></li>');
+
+      this.$('#org-table-1').removeClass('hidden').addClass('shown');
+      this.$('.toggle-li, .ellipses').hide();
+      this.$('.toggle-li-1, .toggle-li-2, .toggle-li-3, .toggle-li-4, .toggle-li-5, .toggle-li-6, .toggle-li-7, .toggle-li-' + (numTables-1) + ', .toggle-li-' + numTables + ', .ellipses-right').show();
+      this.$('.toggle-li-1').addClass('active');
     },
 
     // Display table number correlating to clicked button, and hide the rest
