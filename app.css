@@ -36,3 +36,9 @@
 	margin: 3em auto;
 	text-align: center;
 }
+
+.pagination > .ellipses > a:hover,
+.pagination > .ellipses > a:focus {
+	background: none;
+    color: #000;
+}
