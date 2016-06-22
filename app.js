@@ -150,6 +150,8 @@
 
     // Builds a simple paginator for 10 or less pages
     buildSmallPaginator: function() {
+      var button;
+
       for (var l=0; l<numTables; l++) {
         button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
         this.$('.bdo-pagination').append(button);
@@ -161,6 +163,8 @@
 
     // Builds a paginator for over 10 pages, shows only 9 page numbers and hides the rest 
     buildLargePaginator: function() {
+      var button;
+      
       for (var l=0; l<numTables; l++) {
         button = '<li class = "toggle-li toggle-li-' + (l+1) + '"><a class="toggle-button toggle-button-' + (l+1) + '">' + (l+1) + '</a></li>';
         this.$('.bdo-pagination').append(button);
