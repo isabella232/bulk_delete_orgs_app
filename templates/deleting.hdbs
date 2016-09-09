@@ -1,0 +1,9 @@
+<div class="deleting-container">
+
+	<p>Deleting...</p>
+
+	<div class='progress progress-striped active'>
+		<div class="bar" style="width: 0%;"></div>
+	</div>
+
+</div>

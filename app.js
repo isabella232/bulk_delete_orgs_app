@@ -1,9 +1,13 @@
 (function() {
 
-  var timedStatusCheck,
+  var PAGE_SIZE = 20,
+
+      timedStatusCheck,
       allOrgs,
       numTables,
-      orgsToBeDeleted = [];
+      orgsToBeDeleted = [],
+      deletionProgress,
+      totalPagesToDelete;
 
   return {
     events: {
@@ -231,17 +235,22 @@
 
     gatherIDs: function() {
       checkedOrgs = this.$('.deletion:checked');
+      this.switchTo('deleting');
       orgsToBeDeleted = _.map(checkedOrgs, function(i){return i.value});
-      console.log("orgs = ");
-      console.log(orgsToBeDeleted);
-      services.notify('Deleting...','notice',1000);
+      totalPagesToDelete = Math.ceil(orgsToBeDeleted.length/PAGE_SIZE);
+      deletionProgress = 0;
       this.deleteOrgs();
     },
 
     deleteOrgs: function() {
-      var PAGE_SIZE = 500,
-          idsForDeletion = orgsToBeDeleted.splice(0,PAGE_SIZE).toString();
-      console.log("ids = " + idsForDeletion);
+      var idsForDeletion = orgsToBeDeleted.splice(0,PAGE_SIZE).toString(),
+          barPercent;
+
+      deletionProgress++;
+      barPercent = 100*deletionProgress/totalPagesToDelete;
+      this.$('.bar').css('width', barPercent + "%");
+      console.log(deletionProgress);
+      console.log(totalPagesToDelete)
       this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     },
 
@@ -306,7 +315,7 @@
     // Show the confirmation modal
     showConfirmation: function() {
       services.notify('Selected orgs deleted');
-      allOrgs = []
+      allOrgs = [];
       this.init();
     },
 
