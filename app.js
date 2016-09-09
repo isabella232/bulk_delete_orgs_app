@@ -2,7 +2,8 @@
 
   var timedStatusCheck,
       allOrgs,
-      numTables;
+      numTables,
+      orgsToBeDeleted = [];
 
   return {
     events: {
@@ -17,7 +18,7 @@
       'checkDeletionStatusRequest.done':'checkDeletionStatus',
       'checkDeletionStatusRequest.fail':'showError',
       'click .submit':'showModal',
-      'click .confirmDelete':'deleteOrgs',
+      'click .confirmDelete':'gatherIDs',
       'click #closeConfirmModal':'removeParagraph',
       'click .toggle-button':'togglePage',
       'click #reload-orgs':'startAgain',
@@ -228,12 +229,41 @@
       }     
     },
 
+    gatherIDs: function() {
+      checkedOrgs = this.$('.deletion:checked');
+      orgsToBeDeleted = _.map(checkedOrgs, function(i){return i.value});
+      console.log("orgs = ");
+      console.log(orgsToBeDeleted);
+      services.notify('Deleting...','notice',1000);
+      this.deleteOrgs();
+    },
+
+    deleteOrgs: function() {
+      var PAGE_SIZE = 500,
+          idsForDeletion = orgsToBeDeleted.splice(0,PAGE_SIZE).toString();
+      console.log("ids = " + idsForDeletion);
+      this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
+    },
+
     // Collect IDs for deletion, and make request
+    /*
     deleteOrgs: function() {
       var checkedOrgs = this.$('.deletion:checked'),
-        idsForDeletion = '';
+          PAGE_SIZE = 500,
+          numbDeletionJobs = Math.ceil(checkedOrgs.length/PAGE_SIZE),
+          idsForDeletion = [],
+          idsForDeletionStr = '',
+          i, j;
 
-      for (var i=0; i<checkedOrgs.length; i++) {
+      for (i=0; i<numbDeletionJobs; i++) {
+        idsForDeletion = checkedOrgs.splice(0,PAGE_SIZE);
+
+        for (j=0; j<checkedOrgs.length; j++) {
+          idsForDeletionStr = idsForDeletionStr + idsForDeletion[]
+        }
+      }
+
+      for (i=0; i<checkedOrgs.length; i++) {
         idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
       }
 
@@ -241,12 +271,17 @@
       services.notify('Deleting...','notice',1000);
       this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     },
+    */
 
     // Check the job status until complete, then confirm
     // Scope of the AJAX request is bound, and requests are retried every 0.05s
     checkDeletionStatus: function(response) {
       if (response.job_status.status == 'completed') {
-        this.showConfirmation();
+        if (orgsToBeDeleted.length > 0) {
+          this.deleteOrgs();
+        } else {
+          this.showConfirmation();
+        }
       } else if (response.job_status.status == 'failed') {
         this.showError();
       } else {
@@ -271,6 +306,7 @@
     // Show the confirmation modal
     showConfirmation: function() {
       services.notify('Selected orgs deleted');
+      allOrgs = []
       this.init();
     },
 
