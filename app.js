@@ -1,8 +1,13 @@
 (function() {
 
-  var timedStatusCheck,
+  var PAGE_SIZE = 500,
+
+      timedStatusCheck,
       allOrgs,
-      numTables;
+      numTables,
+      orgsToBeDeleted = [],
+      deletionProgress,
+      totalPagesToDelete;
 
   return {
     events: {
@@ -17,7 +22,7 @@
       'checkDeletionStatusRequest.done':'checkDeletionStatus',
       'checkDeletionStatusRequest.fail':'showError',
       'click .submit':'showModal',
-      'click .confirmDelete':'deleteOrgs',
+      'click .confirmDelete':'gatherIDs',
       'click #closeConfirmModal':'removeParagraph',
       'click .toggle-button':'togglePage',
       'click #reload-orgs':'startAgain',
@@ -228,25 +233,32 @@
       }     
     },
 
-    // Collect IDs for deletion, and make request
+    gatherIDs: function() {
+      var checkedOrgs = this.$('.deletion:checked');
+      this.switchTo('deleting');
+      orgsToBeDeleted = _.map(checkedOrgs, function(i){return i.value;});
+      totalPagesToDelete = Math.ceil(orgsToBeDeleted.length/PAGE_SIZE);
+      deletionProgress = 0;
+      this.deleteOrgs();
+    },
+
     deleteOrgs: function() {
-      var checkedOrgs = this.$('.deletion:checked'),
-        idsForDeletion = '';
+      var idsForDeletion = orgsToBeDeleted.splice(0,PAGE_SIZE).toString(),
+          barPercent;
 
-      for (var i=0; i<checkedOrgs.length; i++) {
-        idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
-      }
-
-      idsForDeletion = idsForDeletion.slice(0,-1);
-      services.notify('Deleting...','notice',1000);
+      deletionProgress++;
+      barPercent = 100*deletionProgress/totalPagesToDelete;
+      this.$('.bar').css('width', barPercent + "%");
       this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     },
 
-    // Check the job status until complete, then confirm
-    // Scope of the AJAX request is bound, and requests are retried every 0.05s
     checkDeletionStatus: function(response) {
       if (response.job_status.status == 'completed') {
-        this.showConfirmation();
+        if (orgsToBeDeleted.length > 0) {
+          this.deleteOrgs();
+        } else {
+          this.showConfirmation();
+        }
       } else if (response.job_status.status == 'failed') {
         this.showError();
       } else {
@@ -271,6 +283,7 @@
     // Show the confirmation modal
     showConfirmation: function() {
       services.notify('Selected orgs deleted');
+      allOrgs = [];
       this.init();
     },
 

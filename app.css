@@ -27,12 +27,14 @@
 	width: 25%;
 }
 
-.loading-container {
+.loading-container,
+.deleting-container {
 	width: 50%;
 	margin: 0 auto
 }
 
-.loading-container > p {
+.loading-container > p,
+.deleting-container > p {
 	margin: 3em auto;
 	text-align: center;
 }
