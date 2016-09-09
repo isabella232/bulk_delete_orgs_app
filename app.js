@@ -1,6 +1,6 @@
 (function() {
 
-  var PAGE_SIZE = 20,
+  var PAGE_SIZE = 500,
 
       timedStatusCheck,
       allOrgs,
