@@ -234,9 +234,9 @@
     },
 
     gatherIDs: function() {
-      checkedOrgs = this.$('.deletion:checked');
+      var checkedOrgs = this.$('.deletion:checked');
       this.switchTo('deleting');
-      orgsToBeDeleted = _.map(checkedOrgs, function(i){return i.value});
+      orgsToBeDeleted = _.map(checkedOrgs, function(i){return i.value;});
       totalPagesToDelete = Math.ceil(orgsToBeDeleted.length/PAGE_SIZE);
       deletionProgress = 0;
       this.deleteOrgs();
@@ -249,41 +249,9 @@
       deletionProgress++;
       barPercent = 100*deletionProgress/totalPagesToDelete;
       this.$('.bar').css('width', barPercent + "%");
-      console.log(deletionProgress);
-      console.log(totalPagesToDelete)
       this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     },
 
-    // Collect IDs for deletion, and make request
-    /*
-    deleteOrgs: function() {
-      var checkedOrgs = this.$('.deletion:checked'),
-          PAGE_SIZE = 500,
-          numbDeletionJobs = Math.ceil(checkedOrgs.length/PAGE_SIZE),
-          idsForDeletion = [],
-          idsForDeletionStr = '',
-          i, j;
-
-      for (i=0; i<numbDeletionJobs; i++) {
-        idsForDeletion = checkedOrgs.splice(0,PAGE_SIZE);
-
-        for (j=0; j<checkedOrgs.length; j++) {
-          idsForDeletionStr = idsForDeletionStr + idsForDeletion[]
-        }
-      }
-
-      for (i=0; i<checkedOrgs.length; i++) {
-        idsForDeletion = idsForDeletion + checkedOrgs[i].value + ',';
-      }
-
-      idsForDeletion = idsForDeletion.slice(0,-1);
-      services.notify('Deleting...','notice',1000);
-      this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
-    },
-    */
-
-    // Check the job status until complete, then confirm
-    // Scope of the AJAX request is bound, and requests are retried every 0.05s
     checkDeletionStatus: function(response) {
       if (response.job_status.status == 'completed') {
         if (orgsToBeDeleted.length > 0) {
