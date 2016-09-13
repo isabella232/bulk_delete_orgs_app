@@ -232,7 +232,8 @@
         this.$('#zeroModal').modal();
       }     
     },
-
+    
+    // Collect the IDs of the orgs that have been checked
     gatherIDs: function() {
       var checkedOrgs = this.$('.deletion:checked');
       this.switchTo('deleting');
@@ -241,7 +242,8 @@
       deletionProgress = 0;
       this.deleteOrgs();
     },
-
+    
+    // Pull out the first 500 orgs and run a bulk delete job on them
     deleteOrgs: function() {
       var idsForDeletion = orgsToBeDeleted.splice(0,PAGE_SIZE).toString(),
           barPercent;
@@ -251,7 +253,8 @@
       this.$('.bar').css('width', barPercent + "%");
       this.ajax('bulkDeleteOrgsRequest', idsForDeletion);
     },
-
+    
+    // Check to see if the job is complete before moving on, rechecked every 0.05s
     checkDeletionStatus: function(response) {
       if (response.job_status.status == 'completed') {
         if (orgsToBeDeleted.length > 0) {
@@ -269,7 +272,7 @@
       }
     },
 
-    //
+    // Stop the timeout - called if the app is closed
     stopTimeOut: function() {
       clearTimeout(timedStatusCheck);
     },
